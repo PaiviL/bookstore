@@ -55,5 +55,13 @@ public class BookController {
 		bookRepository.deleteById(id);		// poistetaan kirja tietokannasta id:n perusteella
 		return "redirect:../booklist";		// palataan kirjalistaan, /booklist-endpointin kutsu
 	}
+	
+	// kirjan muokkaus
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	public String editBook(@PathVariable("id") Long id, Model model) {
+		// kirjan haku tietokannasta id:n perusteella, ja välitys templatelle model-olion avulla
+		model.addAttribute("book", bookRepository.findById(id)); 
+		return "editbook";					// editbook-templaten kutsuminen
+	}
 
 }
