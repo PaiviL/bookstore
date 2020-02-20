@@ -1,9 +1,16 @@
 package hh.swd20.bookstore.webcontroller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import hh.swd20.bookstore.domain.Book;
 import hh.swd20.bookstore.domain.BookRepository;
 
 @Controller
@@ -18,6 +25,35 @@ public class BookController {
 	@RequestMapping("/index")
 	public String sayWelcome() {
 		return "index";
+	}
+	
+	// kirjalistaus
+	@RequestMapping(value = "/booklist", method = RequestMethod.GET)
+	public String getBooks(Model model) {
+		List<Book> books = (List<Book>) bookRepository.findAll(); // kirjojen haku tietokannasta
+		model.addAttribute("books", books); // kirjalistan välitys templatelle model-olion avulla
+		return "booklist"; 					// booklist-templaten kutsuminen
+	}
+	
+	// tyhjä kirjalomake
+	@RequestMapping(value = "/addbook", method = RequestMethod.GET)
+    public String addNewBook(Model model) {
+		model.addAttribute("book", new Book());
+		return "addbook";
+	}
+	
+	// lomakkeella syötettyjen tietojen tallennus
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String saveBook(@ModelAttribute Book book) {
+		bookRepository.save(book);			// talletetaan kirjan tiedot tietokantaan
+		return "redirect:/booklist"; 		// palataan kirjalistaan, /booklist-endpointin kutsu
+	}
+	
+	// kirjan poisto
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String deleteBook(@PathVariable("id") Long id) { 
+		bookRepository.deleteById(id);		// poistetaan kirja tietokannasta id:n perusteella
+		return "redirect:../booklist";		// palataan kirjalistaan, /booklist-endpointin kutsu
 	}
 
 }
