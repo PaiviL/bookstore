@@ -42,6 +42,7 @@ public class BookController {
 	@RequestMapping(value = "/addbook", method = RequestMethod.GET)
     public String addNewBook(Model model) {
 		model.addAttribute("book", new Book());
+		model.addAttribute("categories", catRepository.findAll());
 		return "addbook";
 	}
 	
@@ -63,7 +64,8 @@ public class BookController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
 	public String editBook(@PathVariable("id") Long id, Model model) {
 		// kirjan haku tietokannasta id:n perusteella, ja välitys templatelle model-olion avulla
-		model.addAttribute("book", bookRepository.findById(id)); 
+		model.addAttribute("book", bookRepository.findById(id));
+		model.addAttribute("categories", catRepository.findAll());
 		return "editbook";					// editbook-templaten kutsuminen
 	}
 
