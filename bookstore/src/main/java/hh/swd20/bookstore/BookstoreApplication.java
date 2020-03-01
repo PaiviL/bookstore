@@ -31,9 +31,9 @@ public class BookstoreApplication {
 			catRepository.save(new Category("Science fiction"));
 			catRepository.save(new Category("Fantasy"));
 			
-			bookRepository.save(new Book("Animal Farm", "George Orwell", 1945, "978-0-141-03613-7", 8.90));
-			bookRepository.save(new Book("Nineteen Eighty-Four", "George Orwell", 1949, "978-0-451-52493-5", 10.90));
-			bookRepository.save(new Book("All the Light We Cannot See", "Anthony Doerr", 2014, "978-1-4767-4658-6", 14.90));
+			bookRepository.save(new Book("Animal Farm", "George Orwell", 1945, "978-0-141-03613-7", 8.90, catRepository.findByName("Political fiction").get(0)));
+			bookRepository.save(new Book("Nineteen Eighty-Four", "George Orwell", 1949, "978-0-451-52493-5", 10.90, catRepository.findByName("Political fiction").get(0)));
+			bookRepository.save(new Book("All the Light We Cannot See", "Anthony Doerr", 2014, "978-1-4767-4658-6", 14.90, catRepository.findByName("Historical fiction").get(0)));
 			
 			log.info("fetch all categories");
 			for (Category category : catRepository.findAll()) {

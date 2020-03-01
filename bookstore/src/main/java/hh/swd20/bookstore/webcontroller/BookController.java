@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import hh.swd20.bookstore.domain.Book;
 import hh.swd20.bookstore.domain.BookRepository;
+import hh.swd20.bookstore.domain.CategoryRepository;
 
 @Controller
 public class BookController {
@@ -20,6 +21,8 @@ public class BookController {
 	// ja kytkee olion BookController-luokasta luodun olion attribuuttiolioksi
 	@Autowired
 	BookRepository bookRepository;
+	@Autowired
+	CategoryRepository catRepository;
 	
 	// http://localhost:8080/index
 	@RequestMapping("/index")
