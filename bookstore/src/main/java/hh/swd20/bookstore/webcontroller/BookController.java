@@ -1,6 +1,7 @@
 package hh.swd20.bookstore.webcontroller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import hh.swd20.bookstore.domain.Book;
 import hh.swd20.bookstore.domain.BookRepository;
@@ -28,6 +30,18 @@ public class BookController {
 	@RequestMapping("/index")
 	public String sayWelcome() {
 		return "index";
+	}
+	
+	// RESTful kaikkien kirjojen haku (JSON) 
+	@RequestMapping(value = "/books", method = RequestMethod.GET)
+	public @ResponseBody List<Book> getBooksRest() {
+		return (List<Book>) bookRepository.findAll();
+	}
+	
+	// RESTful yhden kirjan haku id:llä (JSON)
+	@RequestMapping(value = "/books/{id}", method = RequestMethod.GET)
+	public @ResponseBody Optional<Book> findBookRest(@PathVariable("id") Long id) {
+		return bookRepository.findById(id);
 	}
 	
 	// kirjalistaus
