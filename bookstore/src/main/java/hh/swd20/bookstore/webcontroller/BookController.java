@@ -32,6 +32,20 @@ public class BookController {
 		return "index";
 	}
 	
+	// login -sivu (ohjaus kirjalistaukseen)
+	@RequestMapping(value="/login")
+    public String login() {
+		return "login";
+	}
+	
+	// kirjalistaus
+	@RequestMapping(value = "/booklist", method = RequestMethod.GET)
+	public String getBooks(Model model) {
+		List<Book> books = (List<Book>) bookRepository.findAll(); // kirjojen haku tietokannasta
+		model.addAttribute("books", books); // kirjalistan välitys templatelle model-olion avulla
+		return "booklist"; 					// booklist-templaten kutsuminen
+	}
+
 	// RESTful kaikkien kirjojen haku (JSON) 
 	@RequestMapping(value = "/books", method = RequestMethod.GET)
 	public @ResponseBody List<Book> getBooksRest() {
@@ -42,14 +56,6 @@ public class BookController {
 	@RequestMapping(value = "/books/{id}", method = RequestMethod.GET)
 	public @ResponseBody Optional<Book> findBookRest(@PathVariable("id") Long id) {
 		return bookRepository.findById(id);
-	}
-	
-	// kirjalistaus
-	@RequestMapping(value = "/booklist", method = RequestMethod.GET)
-	public String getBooks(Model model) {
-		List<Book> books = (List<Book>) bookRepository.findAll(); // kirjojen haku tietokannasta
-		model.addAttribute("books", books); // kirjalistan välitys templatelle model-olion avulla
-		return "booklist"; 					// booklist-templaten kutsuminen
 	}
 	
 	// tyhjä kirjalomake
