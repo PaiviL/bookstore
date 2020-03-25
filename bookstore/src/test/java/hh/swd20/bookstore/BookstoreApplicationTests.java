@@ -1,13 +1,29 @@
 package hh.swd20.bookstore;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Test; 
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import hh.swd20.bookstore.webcontroller.BookController;
+import hh.swd20.bookstore.webcontroller.CategoryController;
+
+@RunWith(SpringRunner.class)
 @SpringBootTest
-class BookstoreApplicationTests {
+public class BookstoreApplicationTests {
+	
+	@Autowired
+	private BookController bookcontroller;
+	@Autowired
+	private CategoryController catcontroller;
 
 	@Test
-	void contextLoads() {
+	public void contextLoads() throws Exception {
+		assertThat(bookcontroller).isNotNull();
+		assertThat(catcontroller).isNotNull();
 	}
 
 }
